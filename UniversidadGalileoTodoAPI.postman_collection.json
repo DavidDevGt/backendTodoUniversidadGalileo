@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "5e3d5e1a-8f3d-4c15-bfc5-8e8a9d3a2c6f",
+		"name": "Universidad Galileo Todo API",
+		"description": "Colección de pruebas para la API RESTful de Tareas y Metas de la Universidad Galileo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Info",
+			"item": [
+				{
+					"name": "API Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						},
+						"description": "Obtener información general de la API"
+					},
+					"response": []
+				}
+			],
+			"description": "Información general de la API"
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Get All Tasks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Obtener todas las tareas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						},
+						"description": "Obtener una tarea específica por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task - Non-existent ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Intentar obtener una tarea con un ID que no existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Completar proyecto final\",\n    \"description\": \"Finalizar el proyecto final para la clase de programación\",\n    \"dueDate\": \"2025-06-15T00:00:00.000Z\",\n    \"completed\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Crear una nueva tarea"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task - Invalid Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"description\": \"\",\n    \"dueDate\": \"invalid-date\",\n    \"completed\": \"not-a-boolean\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Intentar crear una tarea con datos inválidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Proyecto final actualizado\",\n    \"description\": \"Actualización de la descripción del proyecto\",\n    \"dueDate\": \"2025-06-20T00:00:00.000Z\",\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						},
+						"description": "Actualizar una tarea existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task - Non-existent ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Actualización tarea inexistente\",\n    \"description\": \"Esta tarea no existe\",\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Intentar actualizar una tarea con un ID que no existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						},
+						"description": "Eliminar una tarea existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Task - Non-existent ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"999"
+							]
+						},
+						"description": "Intentar eliminar una tarea con un ID que no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "Operaciones relacionadas con tareas"
+		},
+		{
+			"name": "Goals",
+			"item": [
+				{
+					"name": "Get All Goals",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals"
+							]
+						},
+						"description": "Obtener todas las metas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Goal By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"1"
+							]
+						},
+						"description": "Obtener una meta específica por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Goal - Non-existent ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"999"
+							]
+						},
+						"description": "Intentar obtener una meta con un ID que no existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Goal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Aprender Node.js\",\n    \"description\": \"Completar curso avanzado de Node.js y Express\",\n    \"targetDate\": \"2025-08-31T00:00:00.000Z\",\n    \"completed\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals"
+							]
+						},
+						"description": "Crear una nueva meta"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Goal - Invalid Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"description\": \"\",\n    \"targetDate\": \"invalid-date\",\n    \"completed\": \"not-a-boolean\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals"
+							]
+						},
+						"description": "Intentar crear una meta con datos inválidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Goal",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Aprender Node.js avanzado\",\n    \"description\": \"Actualización del objetivo de aprendizaje\",\n    \"targetDate\": \"2025-09-15T00:00:00.000Z\",\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"1"
+							]
+						},
+						"description": "Actualizar una meta existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Goal - Non-existent ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Actualización meta inexistente\",\n    \"description\": \"Esta meta no existe\",\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"999"
+							]
+						},
+						"description": "Intentar actualizar una meta con un ID que no existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Goal",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"1"
+							]
+						},
+						"description": "Eliminar una meta existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Goal - Non-existent ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"999"
+							]
+						},
+						"description": "Intentar eliminar una meta con un ID que no existe"
+					},
+					"response": []
+				}
+			],
+			"description": "Operaciones relacionadas con metas"
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Invalid Authentication",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "invalid-api-key",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Intentar acceder a un endpoint con una API key inválida"
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Authentication",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks"
+							]
+						},
+						"description": "Intentar acceder a un endpoint sin proporcionar una API key"
+					},
+					"response": []
+				}
+			],
+			"description": "Pruebas relacionadas con la autenticación"
+		},
+		{
+			"name": "Error Handling",
+			"item": [
+				{
+					"name": "Non-existent Route",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/non-existent-route",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"non-existent-route"
+							]
+						},
+						"description": "Intentar acceder a una ruta que no existe"
+					},
+					"response": []
+				},
+				{
+					"name": "Method Not Allowed",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{apiKey}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/tasks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"1"
+							]
+						},
+						"description": "Intentar usar un método HTTP no soportado"
+					},
+					"response": []
+				}
+			],
+			"description": "Pruebas de manejo de errores"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:7841",
+			"type": "string"
+		},
+		{
+			"key": "apiKey",
+			"value": "apikeysito12345",
+			"type": "string"
+		}
+	]
+}
