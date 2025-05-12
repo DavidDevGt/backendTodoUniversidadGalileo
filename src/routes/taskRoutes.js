@@ -58,13 +58,27 @@ router.put('/:id', taskValidators.update, (req, res) => {
 
 router.delete('/:id', taskValidators.delete, (req, res) => {
     const id = parseInt(req.params.id);
-    const result = req.repositories.taskRepository.deleteTask(id);
     
-    if (!result) {
+    // Obtener la tarea antes de eliminarla para mostrar detalles en la respuesta
+    const task = req.repositories.taskRepository.getTaskById(id);
+    
+    if (!task) {
         return res.status(404).json({ error: 'Tarea no encontrada' });
     }
     
-    res.status(204).send();
+    const result = req.repositories.taskRepository.deleteTask(id);
+    
+    if (!result) {
+        return res.status(500).json({ error: 'Error al eliminar la tarea' });
+    }
+    
+    res.status(200).json({
+        message: 'Tarea eliminada correctamente',
+        deletedTask: {
+            id: task.id,
+            title: task.title
+        }
+    });
 });
 
 module.exports = router;

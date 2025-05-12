@@ -58,13 +58,27 @@ router.put('/:id', goalValidators.update, (req, res) => {
 
 router.delete('/:id', goalValidators.delete, (req, res) => {
     const id = parseInt(req.params.id);
-    const result = req.repositories.goalRepository.deleteGoal(id);
     
-    if (!result) {
+    // Obtener la meta antes de eliminarla para mostrar detalles en la respuesta
+    const goal = req.repositories.goalRepository.getGoalById(id);
+    
+    if (!goal) {
         return res.status(404).json({ error: 'Meta no encontrada' });
     }
     
-    res.status(204).send();
+    const result = req.repositories.goalRepository.deleteGoal(id);
+    
+    if (!result) {
+        return res.status(500).json({ error: 'Error al eliminar la meta' });
+    }
+    
+    res.status(200).json({
+        message: 'Meta eliminada correctamente',
+        deletedGoal: {
+            id: goal.id,
+            title: goal.title
+        }
+    });
 });
 
 module.exports = router;
