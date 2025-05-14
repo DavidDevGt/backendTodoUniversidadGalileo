@@ -18,7 +18,7 @@ Una API RESTful para gestionar tareas y metas personales, implementada con Node.
 
 ```bash
 # Clonar el repositorio (si aplica)
-# git clone <url-del-repositorio>
+git clone https://github.com/DavidDevGt/backendTodoUniversidadGalileo.git
 
 # Navegar al directorio del proyecto
 cd backendTodoUniversidadGalileo
