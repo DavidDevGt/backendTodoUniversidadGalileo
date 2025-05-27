@@ -1,6 +1,6 @@
 # API de Tareas y Metas - Universidad Galileo
 
-Una API RESTful para gestionar tareas y metas personales, implementada con Node.js y Express.
+Una API RESTful para gestionar tareas y metas personales, implementada con Node.js, Express y MySQL.
 
 ## Características
 
@@ -11,7 +11,7 @@ Una API RESTful para gestionar tareas y metas personales, implementada con Node.
 - Medidas de seguridad contra ataques comunes
 - Límites de tasa para prevenir ataques de fuerza bruta
 - Headers de seguridad con Helmet
-- Almacenamiento en memoria (sin persistencia)
+- Persistencia de datos en MySQL con Sequelize ORM
 - Documentación completa de endpoints
 
 ## Instalación
@@ -27,10 +27,17 @@ cd backendTodoUniversidadGalileo
 npm install
 
 # Configurar el archivo .env
-# Crear un archivo .env en la raíz del proyecto con el siguiente contenido:
+# Crear un archivo .env en la raíz del proyecto basado en .env.example:
 # PORT=3000
 # API_KEY=tu_clave_secreta_aquí
 # NODE_ENV=development
+# DB_HOST=localhost
+# DB_USER=usuario_mysql
+# DB_PASSWORD=contraseña_mysql
+# DB_NAME=nombre_base_datos
+# DB_PORT=3306
+# FRONTEND_URL=http://localhost:5173
+# SHOW_ERRORS=true
 
 # Iniciar el servidor en modo desarrollo
 npm run dev
@@ -43,12 +50,14 @@ npm start
 
 ```
 .env                 # Variables de entorno (no incluido en el repositorio)
+.env.example         # Ejemplo de configuración de variables de entorno
 .gitignore           # Configuración de archivos ignorados por git
 src/
 ├── core/             # Lógica de negocio y modelos
-│   ├── goal.js       # Modelo de metas
-│   ├── task.js       # Modelo de tareas
-│   └── repositories.js # Repositorios para almacenar datos en memoria
+│   ├── db.js         # Configuración de conexión a la base de datos
+│   ├── goal.js       # Modelo de metas (Sequelize)
+│   ├── task.js       # Modelo de tareas (Sequelize)
+│   └── repositories.js # Repositorios para acceder a los datos
 ├── middleware/       # Middleware personalizado
 │   ├── auth.js       # Middleware de autenticación con API key
 │   └── validators.js # Validadores para tareas y metas
@@ -93,7 +102,7 @@ Authorization: tu_clave_api_definida_en_env
 ```bash
 curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
-  -H "Authorization: secretthing123" \
+  -H "Authorization: dfasdfasdfdsa" \
   -d '{"title":"Completar proyecto","description":"Finalizar el desarrollo del API","dueDate":"2023-12-31"}'
 ```
 
@@ -101,13 +110,44 @@ curl -X POST http://localhost:3000/api/tasks \
 
 ```bash
 curl -X GET http://localhost:3000/api/goals \
-  -H "Authorization: secretthing123"
+  -H "Authorization: dfasdfasdfdsa"
+```
+
+### Formato de Objetos
+
+#### Tarea (Task)
+```json
+{
+  "id": 1,
+  "title": "Completar proyecto",
+  "description": "Finalizar el desarrollo del API",
+  "dueDate": "2023-12-31T00:00:00.000Z",
+  "completed": false,
+  "createdAt": "2023-12-10T15:30:00.000Z"
+}
+```
+
+#### Meta (Goal)
+```json
+{
+  "id": 1,
+  "title": "Aprobar el curso",
+  "description": "Obtener calificación superior a 80",
+  "targetDate": "2023-12-31T00:00:00.000Z",
+  "completed": false,
+  "createdAt": "2023-12-10T15:30:00.000Z"
+}
 ```
 
 ## Notas Adicionales
 
-- Esta API utiliza almacenamiento en memoria, por lo que los datos se perderán cuando se reinicie el servidor.
-- Para un entorno de producción, se recomienda implementar una base de datos persistente.
+- Esta API utiliza MySQL como base de datos a través de Sequelize ORM.
+- Se realiza sincronización automática de modelos (`sequelize.sync({ alter: true })`) al iniciar la aplicación.
+
+## Requisitos
+
+- Node.js (v14 o superior)
+- MySQL (v5.7 o superior)
 
 ## Medidas de Seguridad Implementadas
 
