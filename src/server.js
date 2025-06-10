@@ -62,6 +62,11 @@ app.get('/', (req, res) => {
 app.use('/api/tasks', taskRoutes);
 app.use('/api/goals', goalRoutes);
 
+// Healthcheck endpoint para Docker
+app.get('/health', (req, res) => {
+    res.sendStatus(200);
+});
+
 app.use((err, req, res, next) => {
     console.error('❌ Error:', err);
 

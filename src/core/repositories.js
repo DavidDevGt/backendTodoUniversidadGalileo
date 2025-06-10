@@ -1,90 +1,56 @@
-// BASE DE DATOS
-let tasks = [];
-let goals = [];
-
-const getNextTaskId = () => {
-    return tasks.length > 0 ? Math.max(...tasks.map(task => task.id)) + 1 : 1;
-};
-
-const getNextGoalId = () => {
-    return goals.length > 0 ? Math.max(...goals.map(goal => goal.id)) + 1 : 1;
-};
+const Task = require('./task');
+const Goal = require('./goal');
 
 const taskRepository = {
-    getAllTasks() {
-        return [...tasks];
+    async getAllTasks() {
+        return await Task.findAll();
     },
 
-    getTaskById(id) {
-        return tasks.find(task => task.id === id);
-    },
-    createTask(taskData) {
-        const newTask = {
-            id: getNextTaskId(),
-            title: taskData.title,
-            description: taskData.description,
-            dueDate: taskData.dueDate || new Date(),
-            createdAt: new Date(),
-            completed: taskData.completed || false
-        };
-        tasks.push(newTask);
-        return newTask;
+    async getTaskById(id) {
+        return await Task.findByPk(id);
     },
 
-    updateTask(id, taskData) {
-        const index = tasks.findIndex(task => task.id === id);
-        if (index === -1) return null;
-
-        const updatedTask = { ...tasks[index], ...taskData };
-        tasks[index] = updatedTask;
-        return updatedTask;
+    async createTask(taskData) {
+        return await Task.create(taskData);
     },
 
-    deleteTask(id) {
-        const index = tasks.findIndex(task => task.id === id);
-        if (index === -1) return false;
+    async updateTask(id, taskData) {
+        const task = await Task.findByPk(id);
+        if (!task) return null;
+        return await task.update(taskData);
+    },
 
-        tasks.splice(index, 1);
+    async deleteTask(id) {
+        const task = await Task.findByPk(id);
+        if (!task) return false;
+        await task.destroy();
         return true;
     }
 };
 
 const goalRepository = {
-    getAllGoals() {
-        return [...goals];
+    async getAllGoals() {
+        return await Goal.findAll();
     },
 
-    getGoalById(id) {
-        return goals.find(goal => goal.id === id);
+    async getGoalById(id) {
+        return await Goal.findByPk(id);
     },
 
-    createGoal(goalData) {
-        const newGoal = {
-            id: getNextGoalId(),
-            title: goalData.title,
-            description: goalData.description,
-            targetDate: goalData.targetDate || new Date(),
-            createdAt: new Date(),
-            completed: goalData.completed || false
-        };
-        goals.push(newGoal);
-        return newGoal;
+    async createGoal(goalData) {
+        return await Goal.create(goalData);
     },
 
-    updateGoal(id, goalData) {
-        const index = goals.findIndex(goal => goal.id === id);
-        if (index === -1) return null;
-
-        const updatedGoal = { ...goals[index], ...goalData };
-        goals[index] = updatedGoal;
-        return updatedGoal;
+    async updateGoal(id, goalData) {
+        const goal = await Goal.findByPk(id);
+        if (!goal) return null;
+        return await goal.update(goalData);
     },
 
-    deleteGoal(id) {
-        const index = goals.findIndex(goal => goal.id === id);
-        if (index === -1) return false;
-
-        goals.splice(index, 1);
+    async deleteGoal(id) {
+        const goal = await Goal.findByPk(id);
+        if (!goal) return false;
+        await goal.destroy();
         return true;
     }
 };

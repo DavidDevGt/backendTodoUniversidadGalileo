@@ -5,14 +5,14 @@ const { taskValidators } = require('../middleware/validators');
 const router = express.Router();
 router.use(authMiddleware);
 
-router.get('/', (req, res) => {
-    const tasks = req.repositories.taskRepository.getAllTasks();
+router.get('/', async (req, res) => {
+    const tasks = await req.repositories.taskRepository.getAllTasks();
     res.json(tasks);
 });
 
-router.get('/:id', taskValidators.getById, (req, res) => {
+router.get('/:id', taskValidators.getById, async (req, res) => {
     const id = parseInt(req.params.id);
-    const task = req.repositories.taskRepository.getTaskById(id);
+    const task = await req.repositories.taskRepository.getTaskById(id);
     
     if (!task) {
         return res.status(404).json({ error: 'Tarea no encontrada' });
@@ -21,14 +21,14 @@ router.get('/:id', taskValidators.getById, (req, res) => {
     res.json(task);
 });
 
-router.post('/', taskValidators.create, (req, res) => {
+router.post('/', taskValidators.create, async (req, res) => {
     const { title, description, dueDate, completed } = req.body;
     
     if (!title || !description) {
         return res.status(400).json({ error: 'El título y la descripción son obligatorios' });
     }
     
-    const newTask = req.repositories.taskRepository.createTask({
+    const newTask = await req.repositories.taskRepository.createTask({
         title,
         description,
         dueDate: dueDate ? new Date(dueDate) : new Date(),
@@ -38,11 +38,11 @@ router.post('/', taskValidators.create, (req, res) => {
     res.status(201).json(newTask);
 });
 
-router.put('/:id', taskValidators.update, (req, res) => {
+router.put('/:id', taskValidators.update, async (req, res) => {
     const id = parseInt(req.params.id);
     const { title, description, dueDate, completed } = req.body;
     
-    const updatedTask = req.repositories.taskRepository.updateTask(id, {
+    const updatedTask = await req.repositories.taskRepository.updateTask(id, {
         ...(title && { title }),
         ...(description && { description }),
         ...(dueDate && { dueDate: new Date(dueDate) }),
@@ -56,17 +56,15 @@ router.put('/:id', taskValidators.update, (req, res) => {
     res.json(updatedTask);
 });
 
-router.delete('/:id', taskValidators.delete, (req, res) => {
+router.delete('/:id', taskValidators.delete, async (req, res) => {
     const id = parseInt(req.params.id);
     
-    // Obtener la tarea antes de eliminarla para mostrar detalles en la respuesta
-    const task = req.repositories.taskRepository.getTaskById(id);
-    
+    const task = await req.repositories.taskRepository.getTaskById(id);
     if (!task) {
         return res.status(404).json({ error: 'Tarea no encontrada' });
     }
     
-    const result = req.repositories.taskRepository.deleteTask(id);
+    const result = await req.repositories.taskRepository.deleteTask(id);
     
     if (!result) {
         return res.status(500).json({ error: 'Error al eliminar la tarea' });
